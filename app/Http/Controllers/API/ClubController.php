@@ -45,9 +45,9 @@ class ClubController extends Controller
      */
     public function update(Request $request, Club $club)
     {
-        $this->validate($request, [
-            'nameClub' => 'required|max:100',
-        ]);
+        // $this->validate($request, [
+        //     'nameClub' => 'required|max:100',
+        // ]);
         $club->update($request->all());
         return response()->json([
             'status' => 'Mise à jour avec succèss'
