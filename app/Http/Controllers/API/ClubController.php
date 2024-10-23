@@ -22,6 +22,7 @@ class ClubController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'nameClub' => 'required|max:100',
         ]);
@@ -50,7 +51,7 @@ class ClubController extends Controller
         // ]);
         $club->update($request->all());
         return response()->json([
-            'status' => 'Mise à jour avec succèss'
+            'status' => 'Mise à jour avec succès'
         ]);
     }
 
@@ -59,8 +60,9 @@ class ClubController extends Controller
      */
     public function destroy(Club $club)
     {
+        $club->delete();  // Ajoutez cette ligne pour supprimer le club
         return response()->json([
-            'status' => 'Supprimer avec succès'
+            'status' => 'Supprimé avec succès'
         ]);
     }
 }
