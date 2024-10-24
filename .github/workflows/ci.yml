@@ -14,11 +14,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Configurer le fichier .env
-      run: |
-        echo "MYSQL_ROOT_PASSWORD=root" >> .env
-        echo "MYSQL_DATABASE=mydatabase" >> .env
-
+    - name: Copier le fichier .env
+      run: cp docker/.env .env
     - name: Installer Docker
       uses: hoverkraft-tech/compose-action@v2.0.1
 
