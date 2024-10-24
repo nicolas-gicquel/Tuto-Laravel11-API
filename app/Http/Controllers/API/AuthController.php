@@ -16,19 +16,20 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+       
         $request->validate([
-            'first_name' => 'required|string|min:2|max:255',
-            'last_name' => 'required|string|min:2|max:255',
+            // 'first_name' => 'required|string|min:2|max:255',
+            'name' => 'required|string|min:2|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|max:255',
         ]);
-      
+        
         $user = $this->user::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
         ]);
-
+       
         $token = auth()->login($user);
 
         return response()->json([
