@@ -7,11 +7,11 @@ on:
 
 jobs:
   docker:
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Tests-api
+    # defaults:
+    #   run:
+    #     working-directory: Tests-api
 
     steps:
     - name: Checkout
