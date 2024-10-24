@@ -34,8 +34,6 @@ class AuthControllerTest extends TestCase
 
     public function testLogin()
     {
-
-
         $response = $this->postJson('/api/login', [
             'email' => 'john.doe@example.com',
             'password' => 'password123!'
