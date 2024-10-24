@@ -38,5 +38,8 @@ jobs:
     - name: Peupler la base de données
       run: docker exec laravel-docker bash -c "php artisan db:seed --force"
 
+    - name: Migrer la base de données de test
+      run: docker exec laravel-docker bash -c "php artisan migrate --env=testing --force"  
+
     - name: Exécuter les tests PHPUnit
       run: docker exec laravel-docker bash -c "php artisan test tests/Feature"
