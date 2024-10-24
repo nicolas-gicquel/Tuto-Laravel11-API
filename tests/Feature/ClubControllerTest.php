@@ -39,6 +39,8 @@ class ClubControllerTest extends TestCase
         ]);
     }
 
+
+    
     public function testShow()
     {
         $club = Club::factory()->create();
