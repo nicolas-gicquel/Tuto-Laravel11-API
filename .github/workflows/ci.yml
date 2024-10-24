@@ -33,7 +33,7 @@ jobs:
       run: docker exec laravel-docker bash -c "composer install"
 
     - name: Migrer la base de données
-      run: docker exec laravel-docker bash -c "php artisan migrate"
+      run: docker exec laravel-docker bash -c "php artisan migrate --force"
 
     - name: Peupler la base de données
       run: docker exec laravel-docker bash -c "php artisan db:seed"
