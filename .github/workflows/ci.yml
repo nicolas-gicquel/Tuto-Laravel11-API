@@ -9,32 +9,39 @@ jobs:
   docker:
     timeout-minutes: 20
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: Tests-api
 
     steps:
-    - name: Check network connectivity
-      run: |
-        ping -c 4 google.com
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Install Docker
+    - name: Configurer le fichier .env
+      run: |
+        echo "MYSQL_ROOT_PASSWORD=root" >> .env
+        echo "MYSQL_DATABASE=mydatabase" >> .env
+
+    - name: Installer Docker
       uses: hoverkraft-tech/compose-action@v2.0.1
 
-    - name: Sleep for 10 seconds
+    - name: Vérifier la connectivité réseau
+      run: |
+        ping -c 4 8.8.8.8
+
+    - name: Dormir pendant 10 secondes
       run: sleep 10s
       shell: bash
 
-    - name: Database migrate
+    - name: Initialiser les conteneurs
+      run: |
+        for i in {1..5}; do docker-compose up -d && break || sleep 15; done
+
+    - name: Migrer la base de données
       run: docker exec laravel-docker bash -c "php artisan migrate"
 
-    - name: Database seeding
+    - name: Peupler la base de données
       run: docker exec laravel-docker bash -c "php artisan db:seed"
 
-    - name: Install Composer dependencies
+    - name: Installer les dépendances Composer
       run: docker exec laravel-docker bash -c "composer install"
 
-    - name: Run PHPUnit tests
+    - name: Exécuter les tests PHPUnit
       run: docker exec laravel-docker bash -c "php vendor/bin/phpunit"
