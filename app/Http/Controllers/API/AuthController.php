@@ -9,6 +9,7 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    /*Commentaire*/
     public function __construct(User $user)
     {
         $this->user = $user;
