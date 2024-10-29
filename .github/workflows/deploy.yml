@@ -40,7 +40,7 @@ jobs:
     - name: Exécuter les tests PHPUnit
       run: docker exec laravel-docker bash -c "php artisan test tests/Feature"
 
-    - name: Deploy to server
+    - name: Deploiement
       if: github.ref == 'refs/heads/main'
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
