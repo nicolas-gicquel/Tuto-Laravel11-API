@@ -14,34 +14,31 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
-    # - name: Installer Docker
-    #   uses: hoverkraft-tech/compose-action@v2.0.1
+    - name: Installer Docker
+      uses: hoverkraft-tech/compose-action@v2.0.1
 
-    # - name: Dormir pendant 10 secondes
-    #   run: sleep 10s
-    #   shell: bash
+    - name: Dormir pendant 10 secondes
+      run: sleep 10s
+      shell: bash
 
-    # - name: Initialiser les conteneurs
-    #   run: |
-    #     for i in {1..5}; do docker-compose up -d && break || sleep 15; done
+    - name: Initialiser les conteneurs
+      run: |
+        for i in {1..5}; do docker-compose up -d && break || sleep 15; done
 
-    # - name: Installer les dépendances Composer
-    #   run: docker exec laravel-docker bash -c "composer install"
+    - name: Installer les dépendances Composer
+      run: docker exec laravel-docker bash -c "composer install"
 
-    # - name: Migrer la base de données
-    #   run: docker exec laravel-docker bash -c "php artisan migrate --force"
+    - name: Migrer la base de données
+      run: docker exec laravel-docker bash -c "php artisan migrate --force"
 
-    # - name: Peupler la base de données
-    #   run: docker exec laravel-docker bash -c "php artisan db:seed --force"
+    - name: Peupler la base de données
+      run: docker exec laravel-docker bash -c "php artisan db:seed --force"
 
-    # - name: Migrer la base de données de test
-    #   run: docker exec laravel-docker bash -c "php artisan migrate --env=testing --force"  
+    - name: Migrer la base de données de test
+      run: docker exec laravel-docker bash -c "php artisan migrate --env=testing --force"  
 
-    # - name: Exécuter les tests PHPUnit
-    #   run: docker exec laravel-docker bash -c "php artisan test tests/Feature"
-
-    - name: Debug - Environment Variables 
-      run: printenv
+    - name: Exécuter les tests PHPUnit
+      run: docker exec laravel-docker bash -c "php artisan test tests/Feature"
 
     - name: Deploiement
       if: github.ref == 'refs/heads/main'
@@ -51,7 +48,6 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
       run: |
-        set -eux
         mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
