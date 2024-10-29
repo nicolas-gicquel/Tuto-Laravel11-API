@@ -39,3 +39,33 @@ jobs:
 
     - name: Exécuter les tests PHPUnit
       run: docker exec laravel-docker bash -c "php artisan test tests/Feature"
+
+    # - name: Deploy to server
+    # if: github.ref == 'refs/heads/main'
+    # env:
+    #   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    #   REMOTE_USER: ${{ secrets.REMOTE_USER }}
+    #   REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+    #   REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+    # run: |
+    #   mkdir -p ~/.ssh
+    #   echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    #   chmod 600 ~/.ssh/id_rsa
+    #   ssh-keyscan $REMOTE_HOST >> ~/.ssh/known_hosts
+    #   rsync -avz --exclude 'node_modules' --exclude '.env' ./ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH
+    #   ssh $REMOTE_USER@$REMOTE_HOST "cd $REMOTE_PATH && composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader && php artisan migrate --force && php artisan cache:clear && php artisan config:cache && php artisan route:cache"
+
+    - name: Deploy to server
+    if: github.ref == 'refs/heads/main'
+    env:
+      SSH_PRIVATE_KEY: ${{ AAAAB3NzaC1yc2EAAAADAQABAAACAQDNLnNRNPPVi/iIuhDOtl0DTAiYalWmtPyh88FjlgWu+qKIXZ00FQLkU1GmVKej4nJVwZcK8LUP5mJ+shUE3Op93Xt8TvrtIMNLUXq8TGupqi+6h2uKsVRMVaSd+mA3/SKimazvHhrjJ1t6cC6zQuJEtO/oN1Q8dnjEi09IAP8WLen2GQLZDIGMKIRdj1hZ+zM1Bv9CZmf2QAJLRO13qJ41w4ekPJNRoWtmfS4mp/j7onUCKEY+IHhhnzwvNdjmvBmgo7owZQmBzVGNalmr2lwvfVx32ffz79jmiIZLGifLYMYacw5/bfBAE5TelHImsG5VckrdlsneReQZOuARpETdokSpzkks0TMVZbI4TEJSIaNo9elN2KGKLlhF3GgZ1XlGclPpZkJmjt3EA1K69LZXiUWbLwdoql7NTQ/JHnds70MyWxPxf2AjsPr2UWOXGmxqwfDX8Hxmhb8lsbbgH+x+u3iMUaMryH7gC07qCoXFUuuBrkwYYJgYRjYbi+ta1rMTGQlJXT3IRHRFpVXQvx+saAx3UxCnunYiLqvltrCDBQPp2j3TaC4ZBJDL+hMRJvhtcQU3yN1tbVGLuV1LBmanStAMfmRDNhaqRGRc1GdiRLlsQtlmPGrEvUHhNHRb4JAsZXTdlRbtbA1e8JAtIteLDOByAIIrkHy+XdDtPnUyvQ== nicog.dev@gmail.com }}
+      REMOTE_USER: ${{ boel7182 }}
+      REMOTE_HOST: ${{ hostname -f }}
+      REMOTE_PATH: ${{ devops.asnprojets }}
+    run: |
+      mkdir -p ~/.ssh
+      echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+      chmod 600 ~/.ssh/id_rsa
+      ssh-keyscan $REMOTE_HOST >> ~/.ssh/known_hosts
+      rsync -avz --exclude 'node_modules' --exclude '.env' ./ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH
+      ssh $REMOTE_USER@$REMOTE_HOST "cd $REMOTE_PATH && composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader && php artisan migrate --force && php artisan cache:clear && php artisan config:cache && php artisan route:cache"
