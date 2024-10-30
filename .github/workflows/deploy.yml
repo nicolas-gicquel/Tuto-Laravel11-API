@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker:
-    timeout-minutes: 20
+    timeout-minutes: 60
     runs-on: ubuntu-latest
 
     steps:
@@ -40,13 +40,11 @@ jobs:
     - name: Exécuter les tests PHPUnit
       run: docker exec laravel-docker bash -c "php artisan test tests/Feature"
 
-    - name: Deploiement
+    - name: Deploiement continue
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.SERVER }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        exclude: |
-          node_modules/ 
-          vendor/
+      
     
