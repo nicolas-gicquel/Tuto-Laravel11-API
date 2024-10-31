@@ -47,6 +47,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         exclude: |
-        **/vendor/**
+          **/vendor/**
       
     
