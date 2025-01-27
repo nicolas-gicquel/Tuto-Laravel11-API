@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Club extends Model
 {
     use HasFactory;
-    protected $fillable = ['nameClub'];
+    protected $fillable = ['nameClub', 'logoClub'];
 
     public function players()
     {

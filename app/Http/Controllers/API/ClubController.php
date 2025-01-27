@@ -26,7 +26,19 @@ class ClubController extends Controller
         $request->validate([
             'nameClub' => 'required|max:100',
         ]);
-        $club = Club::create($request->all());
+        $filename = "";
+        if ($request->hasFile('logoClub')) {
+            $filenameWithExt = $request->file('logoClub')->getClientOriginalName();
+            $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('logoClub')->getClientOriginalExtension();
+            $filename = $filenameWithoutExt . '_' . time() . '.' . $extension;
+            $path = $request->file('logoClub')->storeAs('public/uploads', $filename);
+        } else {
+            $filename = Null;
+        }
+
+       
+        $club = Club::create(array_merge($request->all(), ['logoClub' => $filename]));
         return response()->json([
             'status' => 'Success',
             'data' => $club,
@@ -46,12 +58,22 @@ class ClubController extends Controller
      */
     public function update(Request $request, Club $club)
     {
-        // $this->validate($request, [
-        //     'nameClub' => 'required|max:100',
-        // ]);
-        $club->update($request->all());
+        $filename = "";
+        if ($request->hasFile('logoClub')) {
+            $filenameWithExt = $request->file('logoClub')->getClientOriginalName();
+            $filenameWithoutExt = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('logoClub')->getClientOriginalExtension();
+            $filename = $filenameWithoutExt . '_' . time() . '.' . $extension;
+            $path = $request->file('logoClub')->storeAs('public/uploads', $filename);
+        } else {
+            $filename = Null;
+        }
+
+       
+        $club->update(array_merge($request->all(), ['logoClub' => $filename]));
+        
         return response()->json([
-            'status' => 'Mise à jour avec succès'
+            'status' => 'Mise à jour avec succèss'
         ]);
     }
 
